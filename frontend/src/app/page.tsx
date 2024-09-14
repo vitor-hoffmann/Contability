@@ -9,6 +9,7 @@ export default function Index() {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [payload, setPayload] = useState<Object>();
+  const [id, setId] = useState<number>();
 
   interface UsersFetch {
     id: number;
@@ -17,7 +18,7 @@ export default function Index() {
   }
 
   useEffect(() => {
-    fetch("http://localhost:5000/users")
+    fetch("http://localhost:5000/usuarios")
       .then((response) => response.json())
       .then((response) => setData(response))
       .catch((e) => {
@@ -30,7 +31,7 @@ export default function Index() {
     event.preventDefault();
     const fetchPayload = { name, email };
     setPayload(fetchPayload);
-    await fetch("http://localhost:5000/users", {
+    await fetch("http://localhost:5000/usuarios", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,6 +40,10 @@ export default function Index() {
     })
       .then(() => setEnviado("Criado usuario: " + name + " " + email))
       .catch((e) => console.error("Erro ao enviar usuario: " + e));
+  }
+
+  function handleDelete() {
+    console.log(id);
   }
 
   return (
@@ -73,10 +78,13 @@ export default function Index() {
       <div>
         <input
           placeholder="Id para deletar"
+          onChange={(e) => setId(parseInt(e.target.value))}
+          value={id}
           type="number"
           max={data.length}
           min={1}
         />
+        <button onClick={handleDelete}>Deletar</button>
       </div>
     </div>
   );
