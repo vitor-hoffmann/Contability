@@ -1,91 +1,29 @@
 "use client";
-
-import { useEffect, useState } from "react";
-
-export default function Index() {
-  const [data, setData] = useState<Array<UsersFetch>>([]);
-  const [message, setMessage] = useState<string>("Loading...");
-  const [enviado, setEnviado] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [payload, setPayload] = useState<Object>();
-  const [id, setId] = useState<number>();
-
-  interface UsersFetch {
+export default function Page() {
+  interface User {
     id: number;
     name: string;
     email: string;
+    password: string;
+    expenses: Expense[];
+  }
+  interface Expense {
+    id: number;
+    user: User;
+    userId: number;
+    amount: number;
+    category: string;
+    date: Date;
+    receipt?: Receipt;
+    receiptId?: number;
+    createdAt: Date;
+  }
+  interface Receipt {
+    id: number;
+    url: string;
+    expense?: Expense;
+    createdAt: Date;
   }
 
-  useEffect(() => {
-    fetch("http://localhost:5000/usuarios")
-      .then((response) => response.json())
-      .then((response) => setData(response))
-      .catch((e) => {
-        console.error("Fetch error " + e);
-        setMessage("Erro no fetch");
-      });
-  }, [payload]);
-
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const fetchPayload = { name, email };
-    setPayload(fetchPayload);
-    await fetch("http://localhost:5000/usuarios", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(fetchPayload),
-    })
-      .then(() => setEnviado("Criado usuario: " + name + " " + email))
-      .catch((e) => console.error("Erro ao enviar usuario: " + e));
-  }
-
-  function handleDelete() {
-    console.log(id);
-  }
-
-  return (
-    <div>
-      {data?.length > 0 ? (
-        data?.map((item) => (
-          <p key={item.id}>
-            {item.name} - {item.email} - {item.id}
-          </p>
-        ))
-      ) : (
-        <p>{message}</p>
-      )}
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Insira seu nome"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          type="text"
-          required
-        />
-        <input
-          placeholder="Insira seu e-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          type="email"
-          required
-        />
-        <button>Criar</button>
-      </form>
-      {enviado}
-      <div>
-        <input
-          placeholder="Id para deletar"
-          onChange={(e) => setId(parseInt(e.target.value))}
-          value={id}
-          type="number"
-          max={data.length}
-          min={1}
-        />
-        <button onClick={handleDelete}>Deletar</button>
-      </div>
-    </div>
-  );
+  return <div>oioi</div>;
 }

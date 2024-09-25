@@ -1,5 +1,5 @@
 # Usa a imagem Node.js versão 18 como base (Alpine é uma versão mais leve)
-FROM node:18-alpine
+FROM node:22-alpine
 
 # Define o diretório de trabalho dentro do contêiner
 WORKDIR /app
@@ -26,4 +26,4 @@ RUN npx prisma generate
 EXPOSE 5000
 
 # Comando para rodar as migrações do Prisma e iniciar o servidor
-CMD ["sh", "-c", "npx prisma migrate dev --name init && npm run start:dev"]
+CMD ["npm run start:dev"]
