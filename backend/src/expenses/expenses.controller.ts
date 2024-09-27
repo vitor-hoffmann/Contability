@@ -1,5 +1,5 @@
 import { Controller, Body, Get, Post, Delete } from '@nestjs/common';
-import { ExpensesService } from '../services/expenses.service';
+import { ExpensesService } from '../expenses/expenses.service';
 
 @Controller('expense')
 export class ExpensesController {

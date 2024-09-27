@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
 import { AppService } from '../services/app.service';
 import { PrismaModule } from '../models/prisma.module';
-import { UserService } from '../services/user.service';
-import { UserController } from '../controller/user.controller';
-import { ExpensesController } from 'src/controller/expenses.controller';
-import { ExpensesService } from 'src/services/expenses.service';
+import { UserService } from '../user/user.service';
+import { UserController } from '../user/user.controller';
+import { ExpensesController } from 'src/expenses/expenses.controller';
+import { ExpensesService } from 'src/expenses/expenses.service';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from '../auth/jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthService } from '../services/auth.service';
-import { AuthController } from '../controller/auth.controller';
+import { AuthService } from '../auth/auth.service';
+import { AuthController } from '../auth/auth.controller';
 
 @Module({
   imports: [
