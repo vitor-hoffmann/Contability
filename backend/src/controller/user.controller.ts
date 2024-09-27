@@ -3,7 +3,7 @@ import { UserService } from '../services/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(
     private readonly userService: UserService,
@@ -19,12 +19,7 @@ export class UserController {
   async create(
     @Body() body: { name: string; email: string; password: string },
   ) {
-    const user = await this.userService.create(body);
-    const payload = { sub: user.id, email: user.email };
-    const token = this.jwtService.sign(payload);
-    return {
-      token,
-    };
+    await this.userService.create(body);
   }
 
   @Delete()

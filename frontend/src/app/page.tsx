@@ -1,4 +1,5 @@
 "use client";
+
 export default function Page() {
   interface User {
     id: number;
@@ -24,6 +25,5 @@ export default function Page() {
     expense?: Expense;
     createdAt: Date;
   }
-
-  return <div>oioi</div>;
+  return <div></div>;
 }
