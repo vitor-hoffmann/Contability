@@ -1,11 +1,11 @@
 "use client";
 
-import { getCookie } from "@/pages/auth/getCookie";
-import { isTokenValid } from "@/pages/auth/isTokenValid";
+import { getCookie } from "@/app/auth/getCookie";
+import { isTokenValid } from "@/app/auth/isTokenValid";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function Home() {
+export default function Dashboard() {
   const router = useRouter();
 
   useEffect(() => {
@@ -22,16 +22,11 @@ export default function Home() {
       }
     };
     checkToken();
-    const intervalId = setInterval(() => {
-      checkToken();
-    }, 3000);
-
-    return () => clearInterval(intervalId);
   }, [router]);
 
   return (
     <div>
-      <h1>home</h1>
+      <h1>dashboard</h1>
     </div>
   );
 }

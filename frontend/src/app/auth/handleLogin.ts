@@ -9,8 +9,6 @@ export const handleLogin = async (email: string, password: string) => {
       password: password,
     }),
   });
-  if (response.ok) {
-    const data = await response.json();
-    return data.token;
-  }
+  const data = await response.json();
+  return data;
 };
