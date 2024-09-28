@@ -31,9 +31,7 @@ export class AuthController {
   @Post('validatetoken')
   validateToken(@Request() req) {
     return {
-      id: req.user.userId,
-      email: req.user.email,
-      name: req.user.name,
+      response: 200,
     };
   }
 }
