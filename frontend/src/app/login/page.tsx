@@ -1,20 +1,20 @@
 "use client";
 
-import { handleLogin } from "@/app/auth/handleLogin";
-import { setCookie } from "@/app/auth/setCookie";
+import { handleLogin } from "@/auth/handleLogin";
+import { setCookie } from "@/auth/setCookie";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { isTokenValid } from "@/app/auth/isTokenValid";
-import { getCookie } from "@/app/auth/getCookie";
-import Input from "@/app/components/InputComponent";
-import Title from "@/app/components/TitleComponent";
-import Button from "@/app/components/ButtonComponent";
-import Warning from "@/app/components/WarningComponent";
+import Input from "@/components/InputComponent";
+import Title from "@/components/TitleComponent";
+import Button from "@/components/ButtonComponent";
+import Warning from "@/components/WarningComponent";
+import { useAuth } from "@/auth/authContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState<string | null>(null);
+  const { isAuthenticated, logout, login } = useAuth();
   const router = useRouter();
 
   async function handleButtonClick(email: string, password: string) {
@@ -23,6 +23,7 @@ export default function LoginPage() {
     if (response.token) {
       setCookie("token", response.token, 24);
       setMessage(null);
+      login();
       router.push("/dashboard");
     } else {
       setMessage(response.message + "!");
@@ -30,17 +31,7 @@ export default function LoginPage() {
   }
 
   useEffect(() => {
-    const checkToken = async () => {
-      const token = getCookie("token");
-      if (token) {
-        const valid = await isTokenValid(token);
-        if (valid) {
-          router.push("/dashboard");
-          return;
-        }
-      }
-    };
-    checkToken();
+    console.log(isAuthenticated);
   }, [router]);
 
   return (

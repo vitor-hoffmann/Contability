@@ -1,10 +1,6 @@
-import React, {
-  createContext,
-  useState,
-  useContext,
-  ReactNode,
-  useMemo,
-} from "react";
+"use client";
+
+import React, { createContext, useState, useContext, ReactNode } from "react";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
@@ -20,14 +16,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = () => setIsAuthenticated(true);
   const logout = () => setIsAuthenticated(false);
 
-  const value = useMemo(
-    () => ({
-      isAuthenticated,
-      login,
-      logout,
-    }),
-    [isAuthenticated]
-  );
+  const value = { isAuthenticated, login, logout };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
