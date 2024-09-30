@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Delete,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtService } from '@nestjs/jwt';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -22,8 +30,18 @@ export class UserController {
     await this.userService.create(body);
   }
 
+  @Get('recover')
+  async recover(@Query('email') email: string) {
+    return await this.userService.recover(email);
+  }
+
   @Delete()
   async delete(@Body() body: { id: number }) {
     return this.userService.delete(body.id);
+  }
+
+  @Get('activate')
+  async activateAccount(@Query('token') token: string) {
+    return this.userService.confirmEmail(token);
   }
 }

@@ -23,7 +23,7 @@ const Input: React.FC<InputProps> = ({
       onChange={onChange}
       className={`${
         styles ?? ""
-      } border p-4 outline-black outline-1 rounded-lg bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+      } border p-4 outline-black outline-1 rounded-lg bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:bg-gray-300 transition duration-300 ease-in-out`}
     />
   );
 };

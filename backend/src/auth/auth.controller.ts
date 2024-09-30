@@ -14,17 +14,15 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  async login(
-    @Body() body: { email: string; password: string },
-  ): Promise<{ token: string }> {
+  async login(@Body() body: { email: string; password: string }): Promise<any> {
     const { email, password } = body;
 
-    const token = await this.authService.login(email, password);
+    const response = await this.authService.login(email, password);
 
-    if (!token) {
+    if (!response) {
       throw new BadRequestException('Invalid credentials');
     }
-    return { token: token };
+    return response;
   }
 
   @UseGuards(JwtAuthGuard)

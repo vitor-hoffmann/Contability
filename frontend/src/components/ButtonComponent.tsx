@@ -11,7 +11,7 @@ const Button: React.FC<ButtonProps> = ({ text, onClick, styles }) => {
     <button
       className={`${
         styles ?? " "
-      } text-white size-fit bg-blue-700 rounded-lg p-3 hover:bg-blue-600 transition duration-300 ease-in-out`}
+      } text-white rounded-lg p-2 transition duration-300 ease-in-out `}
       onClick={onClick}
     >
       {text}

@@ -3,12 +3,17 @@ import React from "react";
 interface WarningProps {
   message: string | null;
   styles?: string;
+  onClick?: () => void;
 }
 
-const Warning: React.FC<WarningProps> = ({ message, styles }) => {
+const Warning: React.FC<WarningProps> = ({ message, styles, onClick }) => {
   if (!message) return null;
 
-  return <p className={`${styles ?? "text-red-600 text-base"}`}>{message}</p>;
+  return (
+    <p onClick={onClick} className={`${styles ?? "text-red-600 text-base"}`}>
+      {message}
+    </p>
+  );
 };
 
 export default Warning;
