@@ -8,10 +8,12 @@ import Warning from "@/components/WarningComponent";
 import SimpleText from "@/components/SimpleTextComponent";
 import { recoverAccount } from "@/auth/recoverAccount";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "@/components/LoadingComponent";
 
 export default function RecoverPassword() {
   const [email, setEmail] = useState<string>("");
   const [message, setMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
   function isValidEmail(email: string): boolean {
@@ -20,12 +22,16 @@ export default function RecoverPassword() {
   }
 
   async function handleButtonClick() {
+    setLoading(true);
     setMessage(null);
     if (!isValidEmail(email)) {
       setMessage("Invalid email!");
+      setLoading(false);
       return;
     }
+
     await recoverAccount(email);
+    setLoading(false);
     router.push("/login");
   }
 
@@ -53,11 +59,14 @@ export default function RecoverPassword() {
             }
           />
           <Warning message={message} />
-          <Button
-            text="Recover account"
-            onClick={() => handleButtonClick()}
-            styles="w-2/3 text-lg bg-blue-700 hover:bg-blue-600"
-          />
+          {!loading && (
+            <Button
+              text="Recover account"
+              onClick={() => handleButtonClick()}
+              styles="w-2/3 text-lg bg-blue-700 hover:bg-blue-600"
+            />
+          )}
+          {loading && <LoadingSpinner />}
         </div>
       </div>
     </div>

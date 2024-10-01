@@ -14,7 +14,7 @@ export default function verifyaccount() {
         <div className="flex flex-col justify-center items-center gap-10 w-full">
           <Title text="Verify your account!" />
           <SimpleText
-            message={"We've sent you a e-mail to confirm your account!"}
+            message={"We've sent you an e-mail to confirm your account!"}
           />
           <Button
             styles="w-2/5 text-lg bg-blue-700 hover:bg-blue-600"

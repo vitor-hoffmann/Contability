@@ -3,6 +3,7 @@
 import { resetPassword } from "@/auth/resetPassword";
 import Button from "@/components/ButtonComponent";
 import Input from "@/components/InputComponent";
+import LoadingSpinner from "@/components/LoadingComponent";
 import Title from "@/components/TitleComponent";
 import Warning from "@/components/WarningComponent";
 import { useRouter } from "next/navigation";
@@ -13,6 +14,7 @@ export default function ResetPassword() {
   const [confirmpassword, setConfirmpassword] = useState<string>("");
   const [message, setMessage] = useState<string | null>("");
   const [token, setToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -21,20 +23,26 @@ export default function ResetPassword() {
   }, []);
 
   async function handleButtonClick() {
+    setLoading(true);
     if (password !== confirmpassword) {
       setMessage("Your password must match!");
+      setLoading(false);
       return;
     }
     if (password.length < 8) {
       setMessage("Your password must have 8 or more digits!");
+      setLoading(false);
       return;
     }
     const response = await resetPassword(token, password);
     if (response.statusCode) {
       setMessage(response.message);
+      setLoading(false);
       return;
     }
+
     router.push("/login");
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -63,11 +71,14 @@ export default function ResetPassword() {
             styles="w-96"
           />
           <Warning message={message} />
-          <Button
-            text="Change password"
-            onClick={handleButtonClick}
-            styles="w-2/4 text-lg bg-blue-700 hover:bg-blue-600"
-          />
+          {!loading && (
+            <Button
+              text="Change password"
+              onClick={handleButtonClick}
+              styles="w-2/4 text-lg bg-blue-700 hover:bg-blue-600"
+            />
+          )}
+          {loading && <LoadingSpinner />}
         </div>
       </div>
     </div>

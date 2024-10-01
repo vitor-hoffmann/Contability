@@ -3,6 +3,7 @@
 import { handleRegister } from "@/auth/handleRegister";
 import Button from "@/components/ButtonComponent";
 import Input from "@/components/InputComponent";
+import LoadingSpinner from "@/components/LoadingComponent";
 import Title from "@/components/TitleComponent";
 import Warning from "@/components/WarningComponent";
 import { useRouter } from "next/navigation";
@@ -13,6 +14,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
   function isValidEmail(email: string): boolean {
@@ -21,28 +23,35 @@ export default function Register() {
   }
 
   async function handleButtonClick() {
+    setLoading(true);
     setMessage(null);
     if (name.length < 3) {
       setMessage("Couldn't create your account, please verify your name");
+      setLoading(false);
       return;
     }
     if (!isValidEmail(email)) {
       setMessage("Couldn't create your account, please verify your email");
+      setLoading(false);
       return;
     }
     if (password.length < 8) {
       setMessage(
         "Couldn't create your account, your password must have 8 or more digits"
       );
+      setLoading(false);
       return;
     }
     const response = await handleRegister(email, password, name);
     if (!response.ok) {
       setMessage("Couldn't create your account, please verify your inputs");
+      setLoading(false);
     }
+
     if (response.ok) {
       router.push("/verifyaccount");
     }
+    setLoading(false);
   }
 
   return (
@@ -80,11 +89,14 @@ export default function Register() {
               onClick={() => router.push("/login")}
               styles="text-gray-500 cursor-pointer size-fit text-md w-full"
             />
-            <Button
-              text="Register"
-              onClick={() => handleButtonClick()}
-              styles="w-2/3 text-lg bg-blue-700 hover:bg-blue-600"
-            />
+            {!loading && (
+              <Button
+                text="Register"
+                onClick={() => handleButtonClick()}
+                styles="w-2/3 text-lg bg-blue-700 hover:bg-blue-600"
+              />
+            )}
+            {loading && <LoadingSpinner />}
           </div>
         </div>
       </div>

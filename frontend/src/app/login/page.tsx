@@ -10,31 +10,38 @@ import Button from "@/components/ButtonComponent";
 import Warning from "@/components/WarningComponent";
 import { getCookie } from "@/auth/getCookie";
 import { isTokenValid } from "@/auth/isTokenValid";
+import LoadingSpinner from "@/components/LoadingComponent";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();
 
   async function handleButtonClick() {
+    setLoading(true);
     setMessage(null);
     const response = await handleLogin(email, password);
     if (!response.statusCode) {
       if (response.isConfirmed === 0) {
         setMessage("Confirm your account!");
+        setLoading(false);
         return;
       }
       if (response.token) {
         setCookie("token", response.token, 24);
+        setLoading(false);
         router.push("/dashboard");
         return;
       } else {
         setMessage(response.message + "!");
+        setLoading(false);
       }
     }
     setMessage(response.message + "!");
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -81,7 +88,7 @@ export default function LoginPage() {
             />
             <Warning message={message} />
           </div>
-          <div className="flex w-full gap-6 justify-center items-center">
+          <div className="flex w-full gap-6 ">
             <div className="w-full flex flex-col gap-2">
               <Warning
                 message={"New here? register now!"}
@@ -94,11 +101,14 @@ export default function LoginPage() {
                 styles="text-gray-500 cursor-pointer size-fit text-md w-full"
               />
             </div>
-            <Button
-              text="Login"
-              onClick={() => handleButtonClick()}
-              styles="w-2/3 text-lg bg-blue-700 hover:bg-blue-600"
-            />
+            {!loading && (
+              <Button
+                text="Login"
+                onClick={() => handleButtonClick()}
+                styles="w-2/3 text-lg bg-blue-700 hover:bg-blue-600"
+              />
+            )}
+            {loading && <LoadingSpinner />}
           </div>
         </div>
       </div>
