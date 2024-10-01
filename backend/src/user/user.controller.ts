@@ -34,6 +34,10 @@ export class UserController {
   async recover(@Query('email') email: string) {
     return await this.userService.recover(email);
   }
+  @Post('reset')
+  async reset(@Body() body: { token: string; password: string }) {
+    return await this.userService.reset(body.token, body.password);
+  }
 
   @Delete()
   async delete(@Body() body: { id: number }) {

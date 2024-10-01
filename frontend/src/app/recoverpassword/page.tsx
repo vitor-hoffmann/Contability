@@ -1,18 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Input from "@/components/InputComponent";
 import Title from "@/components/TitleComponent";
 import Button from "@/components/ButtonComponent";
 import Warning from "@/components/WarningComponent";
 import SimpleText from "@/components/SimpleTextComponent";
 import { recoverAccount } from "@/auth/recoverAccount";
+import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+export default function RecoverPassword() {
   const [email, setEmail] = useState<string>("");
   const [message, setMessage] = useState<string | null>(null);
-
   const router = useRouter();
 
   function isValidEmail(email: string): boolean {
@@ -23,11 +22,11 @@ export default function LoginPage() {
   async function handleButtonClick() {
     setMessage(null);
     if (!isValidEmail(email)) {
-      setMessage("Invalid email");
+      setMessage("Invalid email!");
       return;
     }
-    const response = await recoverAccount(email);
-    console.log(response);
+    await recoverAccount(email);
+    router.push("/login");
   }
 
   useEffect(() => {
@@ -55,7 +54,7 @@ export default function LoginPage() {
           />
           <Warning message={message} />
           <Button
-            text="Recover email"
+            text="Recover account"
             onClick={() => handleButtonClick()}
             styles="w-2/3 text-lg bg-blue-700 hover:bg-blue-600"
           />

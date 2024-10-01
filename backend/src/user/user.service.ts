@@ -51,10 +51,32 @@ export class UserService {
   }
 
   async recover(email: string) {
-    const user = this.findByEmail(email);
-    if (user) {
-      const token = this.jwtService.sign({ email: email }, { expiresIn: '1h' });
-      await this.sendRecoverEmail(email, token);
+    const user = await this.findByEmail(email);
+    if (user === null) {
+      throw new Error('User not found');
+    }
+    const token = this.jwtService.sign({ email: email }, { expiresIn: '1h' });
+    await this.sendRecoverEmail(email, token);
+  }
+
+  async reset(token: string, password: string) {
+    try {
+      const decoded = this.jwtService.verify(token);
+
+      const user = await this.findByEmail(decoded.email);
+
+      if (user === null) {
+        throw new Error('User not found');
+      }
+
+      await this.prisma.user.update({
+        where: { email: user.email },
+        data: { password: password },
+      });
+
+      return { message: 'Password successfully reset' };
+    } catch (error) {
+      return { message: 'Invalid or expired token' };
     }
   }
 
