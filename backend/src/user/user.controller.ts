@@ -18,9 +18,13 @@ export class UserController {
     private readonly jwtService: JwtService,
   ) {}
   @UseGuards(JwtAuthGuard)
-  @Get()
+  @Get('getall')
   async findAll() {
     return this.userService.findAll();
+  }
+  @Get('getone')
+  async findById(@Query('userid') userid: string) {
+    return this.userService.findById(userid);
   }
 
   @Post()
@@ -40,7 +44,7 @@ export class UserController {
   }
 
   @Delete()
-  async delete(@Body() body: { id: number }) {
+  async delete(@Body() body: { id: string }) {
     return this.userService.delete(body.id);
   }
 

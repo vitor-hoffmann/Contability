@@ -31,7 +31,8 @@ export default function LoginPage() {
         return;
       }
       if (response.token) {
-        setCookie("token", response.token, 24);
+        setCookie("X-AUTH-A", response.token, 24);
+        setCookie("X-AUTH-B", response.id, 24);
         setLoading(false);
         router.push("/dashboard");
         return;
@@ -46,7 +47,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     const checkToken = async () => {
-      const token = getCookie("token");
+      const token = getCookie("X-AUTH-A");
       if (!token) {
         return;
       }

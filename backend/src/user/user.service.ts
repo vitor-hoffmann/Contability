@@ -15,11 +15,11 @@ export class UserService {
     return this.prisma.user.findMany({
       select: {
         id: true,
-        name: true,
         email: true,
-        expenses: true,
-        createdAt: true,
+        name: true,
+        tables: true,
         isConfirmed: true,
+        createdAt: true,
       },
     });
   }
@@ -27,6 +27,20 @@ export class UserService {
   async findByEmail(email: string) {
     return this.prisma.user.findUnique({
       where: { email },
+    });
+  }
+
+  async findById(id: string) {
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        tables: true,
+        isConfirmed: true,
+        createdAt: true,
+      },
     });
   }
 
@@ -42,10 +56,10 @@ export class UserService {
     return user;
   }
 
-  async delete(id: number) {
+  async delete(email: string) {
     return this.prisma.user.delete({
       where: {
-        id: id,
+        email: email,
       },
     });
   }

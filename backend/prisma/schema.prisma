@@ -14,30 +14,46 @@ datasource db {
 }
 
 model User {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   email       String    @unique
   name        String    @unique
   password    String
-  expenses    Expense[]
+  tables      Table[]   // Relacionamento com as tabelas criadas pelo usuário
   isConfirmed Int       @default(0)
   createdAt   DateTime  @default(now())
 }
 
-model Expense {
+model Table {
+  id          Int         @id @default(autoincrement())
+  name        String      // Nome da tabela
+  user        User        @relation(fields: [userId], references: [id])
+  userId      String
+  columns     Column[]    // Relacionamento com as colunas da tabela
+  rows        Row[]       // Relacionamento com as linhas da tabela
+  attachments Attachment[]// Relacionamento com os anexos da tabela
+  createdAt   DateTime    @default(now())
+}
+
+model Column {
   id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
-  amount    Float
-  category  String
-  date      DateTime
-  receipt   Receipt? @relation(fields: [receiptId], references: [id])
-  receiptId Int?     @unique
+  name      String   // Nome da coluna
+  table     Table    @relation(fields: [tableId], references: [id])
+  tableId   Int
   createdAt DateTime @default(now())
 }
 
-model Receipt {
+model Row {
   id        Int      @id @default(autoincrement())
-  url       String
-  expense   Expense? @relation
+  table     Table    @relation(fields: [tableId], references: [id])
+  tableId   Int
+  data      Json     // Dados de cada célula da linha em formato JSON
+  createdAt DateTime @default(now())
+}
+
+model Attachment {
+  id        Int      @id @default(autoincrement())
+  table     Table    @relation(fields: [tableId], references: [id])
+  tableId   Int
+  url       String   // URL do anexo
   createdAt DateTime @default(now())
 }
