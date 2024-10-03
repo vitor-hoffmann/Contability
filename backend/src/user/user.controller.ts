@@ -17,7 +17,7 @@ export class UserController {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {}
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Get('getall')
   async findAll() {
     return this.userService.findAll();
@@ -29,7 +29,13 @@ export class UserController {
 
   @Post()
   async create(
-    @Body() body: { name: string; email: string; password: string },
+    @Body()
+    body: {
+      name: string;
+      email: string;
+      password: string;
+      avatar: string;
+    },
   ) {
     await this.userService.create(body);
   }

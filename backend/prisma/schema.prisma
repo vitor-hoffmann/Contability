@@ -21,6 +21,7 @@ model User {
   tables      Table[]   // Relacionamento com as tabelas criadas pelo usuário
   isConfirmed Int       @default(0)
   createdAt   DateTime  @default(now())
+  avatar      String
 }
 
 model Table {

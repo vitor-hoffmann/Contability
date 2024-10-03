@@ -1,7 +1,8 @@
 export const handleRegister = async (
   email: string,
   password: string,
-  name: string
+  name: string,
+  avatar: string
 ) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}users`, {
     method: "POST",
@@ -12,6 +13,7 @@ export const handleRegister = async (
       email: email,
       password: password,
       name: name,
+      avatar: avatar,
     }),
   });
   return response;

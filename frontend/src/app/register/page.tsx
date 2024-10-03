@@ -15,6 +15,7 @@ export default function Register() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const avatar = "";
   const router = useRouter();
 
   function isValidEmail(email: string): boolean {
@@ -42,7 +43,7 @@ export default function Register() {
       setLoading(false);
       return;
     }
-    const response = await handleRegister(email, password, name);
+    const response = await handleRegister(email, password, name, avatar);
     if (!response.ok) {
       setMessage("Couldn't create your account, please verify your inputs");
       setLoading(false);

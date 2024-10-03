@@ -20,6 +20,7 @@ export class UserService {
         tables: true,
         isConfirmed: true,
         createdAt: true,
+        avatar: true,
       },
     });
   }
@@ -40,11 +41,17 @@ export class UserService {
         tables: true,
         isConfirmed: true,
         createdAt: true,
+        avatar: true,
       },
     });
   }
 
-  async create(data: { name: string; email: string; password: string }) {
+  async create(data: {
+    name: string;
+    email: string;
+    password: string;
+    avatar: string;
+  }) {
     const user = await this.prisma.user.create({
       data,
     });
@@ -56,10 +63,10 @@ export class UserService {
     return user;
   }
 
-  async delete(email: string) {
+  async delete(id: string) {
     return this.prisma.user.delete({
       where: {
-        email: email,
+        id: id,
       },
     });
   }

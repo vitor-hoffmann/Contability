@@ -6,6 +6,7 @@ CREATE TABLE "User" (
     "password" TEXT NOT NULL,
     "isConfirmed" INTEGER NOT NULL DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "avatar" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
