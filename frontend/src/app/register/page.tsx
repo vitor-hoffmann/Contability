@@ -13,9 +13,9 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [avatar, setAvatar] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const avatar = "";
   const router = useRouter();
 
   function isValidEmail(email: string): boolean {
@@ -80,6 +80,13 @@ export default function Register() {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              styles="w-full"
+            />
+            <Input
+              type="text"
+              placeholder="Avatar"
+              value={avatar}
+              onChange={(e) => setAvatar(e.target.value)}
               styles="w-full"
             />
             <Warning message={message} />
