@@ -12,7 +12,7 @@ export class UserService {
   ) {}
 
   async findAll() {
-    return this.prisma.user.findMany({
+    return await this.prisma.user.findMany({
       select: {
         id: true,
         email: true,
@@ -26,13 +26,25 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    return this.prisma.user.findUnique({
+    return await this.prisma.user.findUnique({
       where: { email },
     });
   }
 
+  async update(body: { id: string; name: string; avatar: string }) {
+    return await this.prisma.user.update({
+      where: {
+        id: body.id,
+      },
+      data: {
+        name: body.name,
+        avatar: body.avatar,
+      },
+    });
+  }
+
   async findById(id: string) {
-    return this.prisma.user.findUnique({
+    return await this.prisma.user.findUnique({
       where: { id },
       select: {
         id: true,
@@ -64,7 +76,7 @@ export class UserService {
   }
 
   async delete(id: string) {
-    return this.prisma.user.delete({
+    return await this.prisma.user.delete({
       where: {
         id: id,
       },
@@ -120,7 +132,7 @@ export class UserService {
   }
 
   async sendActivationEmail(email: string, token: string) {
-    const transporter = nodemailer.createTransport({
+    const transporter = await nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: this.configService.get<string>('EMAIL_USER'),

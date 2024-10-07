@@ -23,6 +23,13 @@ export default function Register() {
     return emailRegex.test(email);
   }
 
+  function capitalizeName(name: string): string {
+    return name
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  }
+
   async function handleButtonClick() {
     setLoading(true);
     setMessage(null);
@@ -43,7 +50,12 @@ export default function Register() {
       setLoading(false);
       return;
     }
-    const response = await handleRegister(email, password, name, avatar);
+    const response = await handleRegister(
+      email,
+      password,
+      capitalizeName(name),
+      avatar
+    );
     if (!response.ok) {
       setMessage("Couldn't create your account, please verify your inputs");
       setLoading(false);

@@ -6,6 +6,7 @@ import {
   Delete,
   Query,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtService } from '@nestjs/jwt';
@@ -17,7 +18,7 @@ export class UserController {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {}
-  //@UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('getall')
   async findAll() {
     return this.userService.findAll();
@@ -51,11 +52,16 @@ export class UserController {
 
   @Delete()
   async delete(@Body() body: { id: string }) {
-    return this.userService.delete(body.id);
+    return await this.userService.delete(body.id);
+  }
+
+  @Put()
+  async update(@Body() body: { id: string; name: string; avatar: string }) {
+    return await this.userService.update(body);
   }
 
   @Get('activate')
   async activateAccount(@Query('token') token: string) {
-    return this.userService.confirmEmail(token);
+    return await this.userService.confirmEmail(token);
   }
 }

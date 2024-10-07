@@ -22,9 +22,9 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, user }) => {
   }
 
   return (
-    <div className="absolute right-0 bg-white rounded-lg p-8 w-60 shadow-xl hover:shadow-2xl transition-shadow duration-300 mt-2">
+    <div className="relative bg-white rounded-lg p-6 w-auto shadow-lg hover:shadow-xl transition-shadow duration-300 mt-2">
       <Button
-        styles="absolute top-5 right-5 hover:text-gray-800 px-0 py-0 text-black"
+        styles="!text-black absolute top-4 right-4 px-0 py-0"
         text="X"
         onClick={onClose}
       />
@@ -35,12 +35,12 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, user }) => {
       <div className="flex flex-col justify-around gap-3 mt-6">
         <Button
           onClick={() => console.log("View full profile")}
-          styles="size-fit px-4 size-fit py-2 bg-blue-500 hover:bg-blue-400 text-white rounded-md"
+          styles="px-4 py-2 bg-blue-500 hover:bg-blue-400 text-white rounded-md"
           text="See full profile"
         />
         <SimpleText
           onClick={() => handleLogout()}
-          styles="text-gray-400 size-fit cursor-pointer"
+          styles="text-gray-400 cursor-pointer"
           message={"Logout"}
         />
       </div>
