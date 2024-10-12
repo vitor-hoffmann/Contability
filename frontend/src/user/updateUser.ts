@@ -1,7 +1,7 @@
 export const updateUser = async (
   id: string | null,
-  name: string,
-  avatar: string
+  name: string | null,
+  avatar: string | null
 ) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}users`, {
     method: "PUT",

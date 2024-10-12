@@ -7,23 +7,15 @@ import { usePathname } from "next/navigation";
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   const pathname = usePathname();
 
-  const noHeaderRoutes: string[] = [
-    "/activate-account",
-    "/login",
-    "/recoverpassword",
-    "/register",
-    "/resetpassword",
-    "/verifyaccount",
-    "/_not-found",
-  ];
+  const noHeaderRoutes: string[] = ["/dashboard"];
 
   const shouldShowHeader: boolean =
-    pathname !== null && !noHeaderRoutes.includes(pathname);
+    pathname === null || noHeaderRoutes.includes(pathname);
 
   return (
     <html lang="pt-BR">

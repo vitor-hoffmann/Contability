@@ -4,10 +4,11 @@ import { getCookie } from "@/auth/getCookie";
 import { isTokenValid } from "@/auth/isTokenValid";
 import { getUser } from "@/user/getUser";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const router = useRouter();
+  const [islogged, setIslogged] = useState<boolean>(false);
 
   const userId = getCookie("X-AUTH-B");
 
@@ -28,14 +29,19 @@ export default function Dashboard() {
       if (!valid) {
         router.push("/login");
       }
+      setIslogged(true);
     };
     checkToken();
   }, [router]);
 
   return (
-    <div>
-      <h1>dashboard</h1>
-      <button onClick={handleClick}>clica ai</button>
-    </div>
+    <>
+      {islogged && (
+        <div>
+          <h1>dashboard</h1>
+          <button onClick={handleClick}>clica ai</button>
+        </div>
+      )}
+    </>
   );
 }

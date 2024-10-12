@@ -8,9 +8,7 @@ import ProfileModal from "./ProfileModal";
 const Header: React.FC = () => {
   const [loggeduser, setLoggeduser] = useState<string | null>(null);
   const [loggeduseremail, setLoggeduseremail] = useState<string | null>(null);
-  const [loggeduserimage, setLoggeduserimage] = useState<string | undefined>(
-    undefined
-  );
+  const [loggeduserimage, setLoggeduserimage] = useState<string | null>(null);
   const [profilemodal, setProfilemodal] = useState<boolean>(false);
   const [imageError, setImageError] = useState(false);
 
@@ -75,7 +73,11 @@ const Header: React.FC = () => {
                 {profilemodal && (
                   <div className="absolute top-full right-1/2 transform mt-2">
                     <ProfileModal
-                      user={{ name: loggeduser, email: loggeduseremail }}
+                      user={{
+                        name: loggeduser,
+                        email: loggeduseremail,
+                        avatar: loggeduserimage,
+                      }}
                       onClose={handleProfileClick}
                     />
                   </div>
