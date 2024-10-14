@@ -50,10 +50,16 @@ export class UserService {
         id: true,
         email: true,
         name: true,
-        tables: true,
         isConfirmed: true,
         createdAt: true,
         avatar: true,
+        tables: {
+          include: {
+            columns: true,
+            rows: true,
+            attachments: true,
+          },
+        },
       },
     });
   }

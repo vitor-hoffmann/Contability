@@ -43,7 +43,7 @@ const Header: React.FC = () => {
 
   return (
     <div>
-      <header className="bg-blue-600 p-8">
+      <header className="bg-blue-600 p-8 border-b-2 border-black">
         <nav>
           <ul className="flex justify-around items-center text-white">
             <li>
@@ -53,22 +53,25 @@ const Header: React.FC = () => {
               <Title styles="text-white " text="DASHBOARD" />
             </li>
             <li className="cursor-default flex items-center gap-6 relative">
-              <SimpleText
-                styles="text-white"
-                message={`Hello, ${loggeduser}`}
-              />
+              {loggeduser && (
+                <SimpleText
+                  styles="text-white"
+                  message={`Hello, ${loggeduser}`}
+                />
+              )}
               <div className="relative">
                 <div onClick={handleProfileClick} className="cursor-pointer">
-                  {loggeduserimage && !imageError ? (
-                    <img
-                      alt="user-avatar"
-                      src={loggeduserimage}
-                      onError={() => setImageError(true)}
-                      className="w-auto h-14 rounded-full"
-                    />
-                  ) : (
-                    defaultSVG
-                  )}
+                  {loggeduser &&
+                    (loggeduserimage && !imageError ? (
+                      <img
+                        alt="user-avatar"
+                        src={loggeduserimage}
+                        onError={() => setImageError(true)}
+                        className="w-auto h-14 rounded-full"
+                      />
+                    ) : (
+                      defaultSVG
+                    ))}
                 </div>
                 {profilemodal && (
                   <div className="absolute top-full right-1/2 transform mt-2">
