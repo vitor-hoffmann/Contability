@@ -23,26 +23,30 @@ export default function LoginPage() {
   async function handleButtonClick() {
     setLoading(true);
     setMessage(null);
-    const response = await handleLogin(email, password);
-    if (!response.statusCode) {
-      if (response.isConfirmed === 0) {
-        setMessage("Confirm your account!");
-        setLoading(false);
-        return;
+    try {
+      const response = await handleLogin(email, password);
+      if (!response.statusCode) {
+        if (response.isConfirmed === 0) {
+          setMessage("Confirm your account!");
+          setLoading(false);
+          return;
+        }
+        if (response.token) {
+          setCookie("X-AUTH-A", response.token, 24);
+          setCookie("X-AUTH-B", response.id, 24);
+          setLoading(false);
+          router.push("/dashboard");
+          return;
+        } else {
+          setMessage(response.message + "!");
+          setLoading(false);
+        }
       }
-      if (response.token) {
-        setCookie("X-AUTH-A", response.token, 24);
-        setCookie("X-AUTH-B", response.id, 24);
-        setLoading(false);
-        router.push("/dashboard");
-        return;
-      } else {
-        setMessage(response.message + "!");
-        setLoading(false);
-      }
+      setMessage(response.message + "!");
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
     }
-    setMessage(response.message + "!");
-    setLoading(false);
   }
 
   useEffect(() => {

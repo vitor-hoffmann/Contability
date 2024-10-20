@@ -14,7 +14,10 @@ const SimpleText: React.FC<SimpleTextProps> = ({
   if (!message) return null;
 
   return (
-    <p onClick={onClick} className={`${styles ?? "text-gray-600 text-base "}`}>
+    <p
+      onClick={onClick}
+      className={`${styles ?? " size-fit text-gray-600 text-base "}`}
+    >
       {message}
     </p>
   );

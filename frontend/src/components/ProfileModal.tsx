@@ -88,7 +88,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, user }) => {
   }
 
   return (
-    <div className="relative bg-white rounded-lg p-6 w-auto min-w-80 shadow-lg hover:shadow-x transition-shadow duration-300 mt-2">
+    <div className="relative bg-white rounded-lg p-6 w-auto min-w-80 shadow-lg hover:shadow-x transition-shadow duration-300 mt-2 ">
       <div className="flex justify-between text-center items-center">
         <Title text={"Profile"} />
         <Button styles="!text-black p-0" text="X" onClick={onClose} />
@@ -116,7 +116,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ onClose, user }) => {
               {!isloading && (
                 <>
                   <Button
-                    text={"Submit"}
+                    text={"Save"}
                     onClick={() => handleButtonSubmit()}
                     styles="bg-blue-600 hover:bg-blue-700 mt-3 w-full"
                   />

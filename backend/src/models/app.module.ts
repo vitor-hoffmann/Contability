@@ -9,6 +9,8 @@ import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthService } from '../auth/auth.service';
 import { AuthController } from '../auth/auth.controller';
+import { TablesService } from 'src/tables/tables.service';
+import { TablesController } from 'src/tables/tables.controller';
 
 @Module({
   imports: [
@@ -26,8 +28,8 @@ import { AuthController } from '../auth/auth.controller';
       }),
     }),
   ],
-  controllers: [UserController, AuthController],
-  providers: [AppService, UserService, AuthService, JwtStrategy],
+  controllers: [UserController, AuthController, TablesController],
+  providers: [AppService, UserService, AuthService, JwtStrategy, TablesService],
   exports: [JwtModule],
 })
 export class AppModule {}

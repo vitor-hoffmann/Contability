@@ -42,55 +42,53 @@ const Header: React.FC = () => {
   }
 
   return (
-    <div>
-      <header className="bg-blue-600 p-8 border-b-2 border-black">
-        <nav>
-          <ul className="flex justify-around items-center text-white">
-            <li>
-              <a href="/dashboard">logo</a>
-            </li>
-            <li className="cursor-default">
-              <Title styles="text-white " text="DASHBOARD" />
-            </li>
-            <li className="cursor-default flex items-center gap-6 relative">
-              {loggeduser && (
-                <SimpleText
-                  styles="text-white"
-                  message={`Hello, ${loggeduser}`}
-                />
-              )}
-              <div className="relative">
-                <div onClick={handleProfileClick} className="cursor-pointer">
-                  {loggeduser &&
-                    (loggeduserimage && !imageError ? (
-                      <img
-                        alt="user-avatar"
-                        src={loggeduserimage}
-                        onError={() => setImageError(true)}
-                        className="w-auto h-14 rounded-full"
-                      />
-                    ) : (
-                      defaultSVG
-                    ))}
-                </div>
-                {profilemodal && (
-                  <div className="absolute top-full right-1/2 transform mt-2">
-                    <ProfileModal
-                      user={{
-                        name: loggeduser,
-                        email: loggeduseremail,
-                        avatar: loggeduserimage,
-                      }}
-                      onClose={handleProfileClick}
+    <header id="header" className="bg-blue-600 p-8 border-b-2 border-black">
+      <nav>
+        <ul className="flex flex-wrap justify-between items-center mx-28 text-white">
+          <li>
+            <a href="/dashboard">logo</a>
+          </li>
+          <li className="cursor-default">
+            <Title styles="text-white " text="DASHBOARD" />
+          </li>
+          <li className="cursor-default flex flex-wrap items-center gap-6 relative">
+            {loggeduser && (
+              <SimpleText
+                styles="text-white"
+                message={`Hello, ${loggeduser}`}
+              />
+            )}
+            <div className="relative flex-shrink-0">
+              <div onClick={handleProfileClick} className="cursor-pointer">
+                {loggeduser &&
+                  (loggeduserimage && !imageError ? (
+                    <img
+                      alt="user-avatar"
+                      src={loggeduserimage}
+                      onError={() => setImageError(true)}
+                      className="w-auto h-14 rounded-full"
                     />
-                  </div>
-                )}
+                  ) : (
+                    defaultSVG
+                  ))}
               </div>
-            </li>
-          </ul>
-        </nav>
-      </header>
-    </div>
+              {profilemodal && (
+                <div className="absolute top-full right-1/2 transform mt-2">
+                  <ProfileModal
+                    user={{
+                      name: loggeduser,
+                      email: loggeduseremail,
+                      avatar: loggeduserimage,
+                    }}
+                    onClose={handleProfileClick}
+                  />
+                </div>
+              )}
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </header>
   );
 };
 

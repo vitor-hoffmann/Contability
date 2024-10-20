@@ -19,7 +19,7 @@ export default function RootLayout({
 
   return (
     <html lang="pt-BR">
-      <body>
+      <body className="overflow-hidden">
         {shouldShowHeader && <Header />}
         <AppWrapper>{children}</AppWrapper>
       </body>

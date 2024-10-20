@@ -2,7 +2,9 @@
 
 import { getCookie } from "@/auth/getCookie";
 import { isTokenValid } from "@/auth/isTokenValid";
+import Attachment from "@/components/AttachmentComponent";
 import SideBarTables from "@/components/SidebarTablesListing";
+import SimpleText from "@/components/SimpleTextComponent";
 import { getUser } from "@/user/getUser";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -49,28 +51,54 @@ export default function Dashboard() {
   const router = useRouter();
   const [islogged, setIslogged] = useState<boolean>(false);
   const [loggeduser, setLoggeduser] = useState<User | undefined>();
-  const [selectedTable, setSelectedTable] = useState<number>();
+  const [usertables, setUsertables] = useState<TablesType[] | undefined>();
+  const [selectedTable, setSelectedTable] = useState<TablesType | undefined>();
 
   const userId = getCookie("X-AUTH-B");
 
-  async function handleClick() {
-    console.log(loggeduser?.tables);
+  function handleTableClick(index: number) {
+    if (usertables) {
+      setSelectedTable(usertables[index]);
+    }
   }
 
-  function handleTableClick(index: number) {
-    setSelectedTable(index);
+  function handleSideBarSize() {
+    const header = document.getElementById("header");
+    const sidebar = document.getElementById("sidebar");
+
+    if (sidebar && header) {
+      const headerHeight = header.offsetHeight;
+      const viewportHeight = window.innerHeight;
+      const sidebarHeight = viewportHeight - headerHeight;
+
+      sidebar.style.height = `${sidebarHeight}px`;
+    }
   }
+
+  function handleClickAttachment(index: number) {
+    const attachmentUrl = selectedTable?.attachments[index].url;
+    console.log(attachmentUrl);
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleSideBarSize);
+    return () => {
+      window.removeEventListener("resize", handleSideBarSize);
+    };
+  }, [window.innerHeight]);
 
   useEffect(() => {
     async function getLoggedUser() {
       try {
         const response = await getUser(userId);
         setLoggeduser(response);
+        setUsertables(response.tables);
       } catch (error) {
         setLoggeduser(undefined);
       }
     }
     getLoggedUser();
+    handleSideBarSize();
   }, []);
 
   useEffect(() => {
@@ -91,18 +119,37 @@ export default function Dashboard() {
   }, [router]);
 
   return (
-    <div className="flex ">
-      <SideBarTables
-        styles=""
-        tables={loggeduser?.tables}
-        onClick={handleTableClick}
-      />
-      {islogged && (
-        <div>
-          <h1>dashboard</h1>
-          <button onClick={handleClick}>clica ai</button>
-        </div>
-      )}
+    <div className="flex">
+      <div>
+        <SideBarTables
+          styles=""
+          tables={loggeduser?.tables}
+          onClick={handleTableClick}
+        />
+      </div>
+      <div
+        className={`flex flex-grow items-center ${
+          !selectedTable
+            ? "justify-center items-center"
+            : "justify-between items-start"
+        }`}
+      >
+        {!selectedTable && (
+          <p className="text-center">Select or create a table</p>
+        )}
+
+        {selectedTable && (
+          <>
+            <div className="flex justify-around items-center w-full">
+              <SimpleText styles="break-word" message={selectedTable?.name} />
+            </div>
+            <Attachment
+              onClick={handleClickAttachment}
+              attachments={selectedTable?.attachments}
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 }
