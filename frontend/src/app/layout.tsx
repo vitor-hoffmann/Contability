@@ -2,7 +2,6 @@
 
 import "@/app/styles.css";
 import Header from "@/components/HeaderComponent";
-import { AppWrapper } from "@/context";
 import { usePathname } from "next/navigation";
 
 export default function RootLayout({
@@ -21,7 +20,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className="overflow-hidden">
         {shouldShowHeader && <Header />}
-        <AppWrapper>{children}</AppWrapper>
+        {children}
       </body>
     </html>
   );

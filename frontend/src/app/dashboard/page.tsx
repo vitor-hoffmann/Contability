@@ -112,6 +112,7 @@ export default function Dashboard() {
       const valid = await isTokenValid(token);
       if (!valid) {
         router.push("/login");
+        console.log(islogged);
       }
       setIslogged(true);
     };
